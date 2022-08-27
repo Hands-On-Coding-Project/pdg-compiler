@@ -1,6 +1,6 @@
 FROM node:18-alpine
 
-RUN apk update && apk add bash && apk add build-base
+RUN apk update && apk add bash build-base python3 py3-pip
 
 WORKDIR /usr/src/app
 COPY package*.json ./

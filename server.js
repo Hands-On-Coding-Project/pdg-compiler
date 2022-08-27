@@ -9,14 +9,21 @@ const PORT = 12345;
 app.use(bodyParser.json());
 
 async function execute(command){
-    const { stdout, stderr, error } = await exec(command, {"shell" : "bash"});
-    if (error) {
-        return error;
+    try {
+        const { stdout, stderr, error } = await exec(command, {"shell" : "bash"});
+        if (error) {
+            return error;
+        }
+        if (stderr) {
+            return stderr;
+        }
+        return stdout;
     }
-    if (stderr) {
-        return stderr;
+    catch (e) {
+        console.log(e);
+        return "EXECUTION ERROR";
     }
-    return stdout;
+
 }
 
 app.post('/code', async (req, res) => {
@@ -34,14 +41,23 @@ app.post('/code', async (req, res) => {
                 if (err) return console.log(`Error: ${err}`);
                 console.log("File saved successfully");
             });
-            try {
-                output = await execute('g++ main.cpp -o output; ./output');
-                console.log(output);
-            }
-            catch (error) {
-                console.log("There was an error executing the file");
-                output = "EXECUTION ERROR";
-            }
+            output = await execute('g++ main.cpp -o output; ./output');
+            console.log(output);
+        case 'python':
+            fs.writeFileSync('main.py', code, (err) => {
+                if (err) return console.log(`Error: ${err}`);
+                console.log("File saved successfully");
+            });
+            output = await execute('python3 main.py');
+            console.log(output);
+            break;
+        case 'javascript':
+            fs.writeFileSync('main.js', code, (err) => {
+                if (err) return console.log(`Error: ${err}`);
+                console.log("File saved successfully");
+            });
+            output = await execute('node main.js');
+            console.log(output);
             break;
         default:
             break;
