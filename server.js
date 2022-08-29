@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require('fs');
+const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
 const util = require('node:util');
@@ -7,6 +8,8 @@ const exec = util.promisify(require('node:child_process').exec);
 
 const PORT = 12345;
 app.use(bodyParser.json());
+app.use(cors());
+app.options('*', cors());
 
 async function execute(command){
     try {
