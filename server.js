@@ -43,6 +43,7 @@ app.post('/code', async (req, res) => {
             });
             output = await execute('g++ main.cpp -o output; ./output');
             console.log(output);
+            break;
         case 'python':
             fs.writeFileSync('main.py', code, (err) => {
                 if (err) return console.log(`Error: ${err}`);
