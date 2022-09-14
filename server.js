@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.options('*', cors());
 
+//Use this method to run an specific command
 async function execute(command){
     try {
         const { stdout, stderr, error } = await exec(command, {shell : "bash", timeout: 3000});
@@ -38,6 +39,7 @@ app.post('/code', async (req, res) => {
     console.log(lang);
     console.log(code);
 
+    //Create a case for another programming language
     switch (lang) {
         case 'cpp':
         case 'c++':
