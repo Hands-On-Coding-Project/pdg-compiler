@@ -76,7 +76,7 @@ Just do a POST request to the base URL with a JSON file with the following struc
 and you will resieve a similar JSON file:
 ```json
 {
-    "out": "Hello World\n"
+    "out": "Hello World!\n"
 }
 ```
 
