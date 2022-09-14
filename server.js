@@ -13,7 +13,7 @@ app.options('*', cors());
 
 async function execute(command){
     try {
-        const { stdout, stderr, error } = await exec(command, {"shell" : "bash"});
+        const { stdout, stderr, error } = await exec(command, {shell : "bash", timeout: 3000});
         if (error) {
             return error;
         }
@@ -24,10 +24,11 @@ async function execute(command){
     }
     catch (e) {
         console.log(e);
-        return "EXECUTION ERROR";
+        return "TIMEOUT";
     }
 
 }
+
 
 app.post('/code', async (req, res) => {
     let lang = req.body.language;
@@ -69,6 +70,7 @@ app.post('/code', async (req, res) => {
 
     res.send({out: output});
 });
+
 
 app.listen(PORT, () => {
     console.log(`Started on port: ${PORT}`);
