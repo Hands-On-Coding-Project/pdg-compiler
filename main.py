@@ -1,3 +1,3 @@
 print("hello")
-while True:
-pass
+x = input()
+print(x)
