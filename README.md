@@ -34,7 +34,7 @@ Is recomended to use and install [Docker Desktop](https://www.docker.com/) to ru
 
 ## Usage
 
-### Types of code
+### Types of codes
 
 | Code | Meaning |
 | --- | --- |
@@ -44,6 +44,7 @@ Is recomended to use and install [Docker Desktop](https://www.docker.com/) to ru
 | 20 | Shell error |
 | 21 | Compilation error |
 | 30 | Timed Out |
+| 40 | Request error |
 
 
 
