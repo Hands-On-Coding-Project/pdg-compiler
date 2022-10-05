@@ -34,6 +34,19 @@ Is recomended to use and install [Docker Desktop](https://www.docker.com/) to ru
 
 ## Usage
 
+### Types of code
+
+| Code | Meaning |
+| --- | --- |
+| -1 | Internal Error |
+| 10 | Compiled correctly |
+| 11 | Syntax error |
+| 20 | Shell error |
+| 21 | Compilation error |
+| 30 | Timed Out |
+
+
+
 ### Configuration
 
 This project runs JavaScript, Python, and C++ code, but you can also define more languages in the server.js file. You only need to add a "case" inside the "switch" as follows:
