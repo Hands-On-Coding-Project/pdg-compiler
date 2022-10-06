@@ -2,7 +2,8 @@ import express from 'express';
 import fs from 'fs';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import {execute} from './compiler.js'
+import { execute } from './compiler.js'
+import { createLanguageObject } from './test.js';
 
 const app = express();
 
@@ -21,6 +22,11 @@ app.post('/compileInput', async (req, res) => {
         code: 40,
         msg: "There was a problem with your request"
     };
+
+    let langObject = createLanguageObject('cpp');
+
+    console.log(`filename: ${langObject.filename}`);
+    console.log(`command: ${langObject.command}`);
 
     console.log(lang);
     console.log(code);
