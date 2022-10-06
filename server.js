@@ -3,7 +3,7 @@ import fs from 'fs';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { execute } from './compiler.js'
-import { createLanguageObject } from './test.js';
+import { createLanguageObject } from './languageObject.js';
 
 const app = express();
 
@@ -23,46 +23,27 @@ app.post('/compileInput', async (req, res) => {
         msg: "There was a problem with your request"
     };
 
-    let langObject = createLanguageObject('cpp');
+    let langObject = createLanguageObject(lang);
 
-    console.log(`filename: ${langObject.filename}`);
-    console.log(`command: ${langObject.command}`);
-
-    console.log(lang);
-    console.log(code);
-
-    fs.writeFileSync('input.txt', input);
-
-    //Create a case for another programming language
-    switch (lang) {
-        case 'cpp':
-        case 'c++':
-            fs.writeFileSync('main.cpp', code, (err) => {
-                if (err) return console.log(`Error: ${err}`);
-                console.log("File saved successfully");
-            });
-            output = await execute('g++ main.cpp -o output; ./output < input.txt');
-            console.log(output);
-            break;
-        case 'python':
-            fs.writeFileSync('main.py', code, (err) => {
-                if (err) return console.log(`Error: ${err}`);
-                console.log("File saved successfully");
-            });
-            output = await execute('python3 main.py < input.txt');
-            console.log(output);
-            break;
-        case 'javascript':
-            fs.writeFileSync('main.js', code, (err) => {
-                if (err) return console.log(`Error: ${err}`);
-                console.log("File saved successfully");
-            });
-            output = await execute('node main.js < input.txt');
-            console.log(output);
-            break;
-        default:
-            break;
+    if (langObject === null) {
+        output.code = 50,
+        output.msg = "Invalid language"
     }
+    else {
+        console.log(`filename: ${langObject.filename}`);
+        console.log(`command: ${langObject.command}`);
+    
+        fs.writeFileSync('input.txt', input);
+    
+        fs.writeFileSync(langObject.filename, code, (err) => {
+            if (err) return console.log(`Error: ${err}`);
+            console.log("File saved successfully");
+        });
+    
+        output = await execute(langObject.command);
+    }
+
+    console.log(output);
 
     res.send(output);
 });
