@@ -1,4 +1,5 @@
 /node_modules
-/*.py
-/*.cpp
-/*.exe
+main.py
+*.exe
+input.txt
+main.cpp
