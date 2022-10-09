@@ -47,7 +47,13 @@ Is recomended to use and install [Docker Desktop](https://www.docker.com/) to ru
 | 40 | Request error |
 | 50 | Invalid language |
 
-
+### Package.json scripts
+```js
+  "scripts": {
+    "test": "mocha --timeout 10000 --exit",
+    "start": "node server.js"
+  },
+```
 
 ### Configuration
 
