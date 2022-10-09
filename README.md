@@ -45,6 +45,7 @@ Is recomended to use and install [Docker Desktop](https://www.docker.com/) to ru
 | 21 | Compilation error |
 | 30 | Timed Out |
 | 40 | Request error |
+| 50 | Invalid language |
 
 
 
