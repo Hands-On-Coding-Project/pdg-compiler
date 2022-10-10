@@ -61,3 +61,43 @@ describe('Hello World Node', () => {
         });
     });
 });
+
+describe('Invalid Language', () => {
+
+    describe('/POST with an invalid language', () => {
+        it('it should return an error and a 50 code', async () => {
+            const code = `print('hello')`
+            const data = {
+                language: "foobar",
+                code: code
+            };
+            const response = await supertest(server).post('/compileInput')
+                                            .send(data)
+            expect(response.status).to.eql(200);
+            expect(response.body.msg).to.eql('Invalid language');
+            expect(response.body.code).to.eql(50);
+        });
+    });
+});
+
+describe('Syntax error', () => {
+
+    describe('/POST C++ with a syntax error (missing semicolon)', () => {
+        it('it should return an 11 code', async () => {
+            const code = `#include <iostream>
+            int main() {
+                std::cout << "hello world" << std::endl
+                return 0;
+            }
+            `
+            const data = {
+                language: "cpp",
+                code: code
+            };
+            const response = await supertest(server).post('/compileInput')
+                                            .send(data)
+            expect(response.status).to.eql(200);
+            expect(response.body.code).to.eql(11);
+        });
+    });
+});
