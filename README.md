@@ -8,6 +8,9 @@ This is the compiler API for the HandsOnCoding project, an open-source MOOC (Mas
 ![Javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
+![Mocha](https://img.shields.io/badge/Mocha-8D6748?style=for-the-badge&logo=Mocha&logoColor=white)
+![Chai](https://img.shields.io/badge/chai-A30701?style=for-the-badge&logo=chai&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=black)
 
 ## Getting Started
 
@@ -34,7 +37,7 @@ Is recomended to use and install [Docker Desktop](https://www.docker.com/) to ru
 
 ## Usage
 
-### Types of codes
+### Code types
 
 | Code | Meaning |
 | --- | --- |
@@ -47,28 +50,27 @@ Is recomended to use and install [Docker Desktop](https://www.docker.com/) to ru
 | 40 | Request error |
 | 50 | Invalid language |
 
-### Package.json scripts
-```js
-  "scripts": {
-    "test": "mocha --timeout 10000 --exit",
-    "start": "node server.js"
-  },
+### Scripts (Package.json)
+
+| Script | Description |
+| --- | --- |
+| test | Run mocha tests |
+| start | Start the app |
+
+Run the scripts with the command:
+```bash
+npm run <script>
 ```
 
 ### Configuration
 
-This project runs JavaScript, Python, and C++ code, but you can also define more languages in the server.js file. You only need to add a "case" inside the "switch" as follows:
-```js
-switch (lang) {
-...
-    case 'python'://The language name
-        fs.writeFileSync('main.py', code, (err) => {//Create a file that contain the code
-            if (err) return console.log(`Error: ${err}`);//Error 😭
-            console.log("File saved successfully");//Success 😄
-        });
-        output = await execute('python3 main.py');//Execute the command to run the file code
-    break;
-...
+This project runs JavaScript, Python, and C++ code, but you can also define more languages in the data/languages.js file. You only need to add the language in the json variable as follows:
+```json
+{
+    "python": {
+        "filename": "main.py",
+        "command": "python3 main.py < input.txt"
+    }
 }
 ```
 
@@ -85,21 +87,41 @@ docker run -p 12345:12345 comserver
 ```
 In both cases, the service will be running at http://localhost:12345/.
 
+### Mocha (Test)
+
+To run the tests, use the following command:
+```bash
+npm start test
+```
+
+### Swagger
+To auto-generate an HTML file from the [Swagger](https://swagger.io/) specs (generated every time you run the app in the "docs" folder), you need to install the global dependencies:
+```bash
+npm install -g redoc-cli
+```
+and run the following command from the root folder:
+```bash
+redoc-cli build -o docs/swagger.html docs/swagger.json
+```
+
 ### How do I use the compiler?
 
 Just do a POST request to the base URL with a JSON file with the following structure:
 ```json
 {
     "language": "python",
-    "text": "print('Hello World!')"
+    "code": "print(input())"
+    "input": "Hello World!"
 }
 ```
 and you will resieve a similar JSON file:
 ```json
 {
-    "out": "Hello World!\n"
+    "code": 10
+    "msg": "Hello World!\n"
 }
 ```
+For more information visit the [Compiler API Doc](https://hands-on-coding-project.github.io/pdg-compiler/).
 
 ## Related Projects
 
