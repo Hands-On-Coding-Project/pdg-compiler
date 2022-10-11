@@ -39,12 +39,12 @@ export async function execute(command) {
         // Timed out
         if (e.signal === "SIGTERM") {
             infoObj.code = 30;
-            msg = "Connection timed out"
+            infoObj.msg = "Connection timed out"
         }
         // Compilation error
         else {
             infoObj.code = 21;
-            msg = "Compilation error"
+            infoObj.msg = e.stderr || "CompilationError"
         }
         return infoObj;
     }
