@@ -101,3 +101,43 @@ describe('Syntax error', () => {
         });
     });
 });
+
+describe('Correct answer Python', () => {
+
+    describe('/POST Correct code to judge in Python', () => {
+        it('it should return an output, a 10 code, and a correct answer', async () => {
+            const code = `print('hello world')` 
+            const data = {
+                language: "python",
+                code: code,
+                answer: "hello world\n"
+            };
+            const response = await supertest(server).post('/judgeInput')
+                                            .send(data)
+            expect(response.status).to.eql(200);
+            expect(response.body.msg).to.eql('hello world\n');
+            expect(response.body.code).to.eql(10);
+            expect(response.body.result).to.eql("CORRECT");
+        });
+    });
+});
+
+describe('Incorrect answer Python', () => {
+
+    describe('/POST Correct code to judge in Python', () => {
+        it('it should return an output, a 10 code, and a correct answer', async () => {
+            const code = `print('hello world')` 
+            const data = {
+                language: "python",
+                code: code,
+                answer: "hello\n"
+            };
+            const response = await supertest(server).post('/judgeInput')
+                                            .send(data)
+            expect(response.status).to.eql(200);
+            expect(response.body.msg).to.eql('hello world\n');
+            expect(response.body.code).to.eql(10);
+            expect(response.body.result).to.eql("INCORRECT");
+        });
+    });
+});

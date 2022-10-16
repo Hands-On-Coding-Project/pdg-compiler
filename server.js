@@ -74,6 +74,87 @@ app.post('/compileInput', async (req, res) => {
 });
 
 
+app.post('/judgeInput', async (req, res) => {
+    let lang = req.body.language;
+    let code = req.body.code;
+    let input = req.body.input || "";
+    let answer = req.body.answer;
+
+    // Request error
+    let output = {
+        code: 40,
+        msg: "There was a problem with your request"
+    };
+
+    let langObject = createLanguageObject(lang);
+
+    if (langObject === null) {
+        output.code = 50,
+        output.msg = "Invalid language"
+    }
+    else {
+        console.log(`filename: ${langObject.filename}`);
+        console.log(`command: ${langObject.command}`);
+    
+        fs.writeFileSync('input.txt', input);
+    
+        fs.writeFileSync(langObject.filename, code, (err) => {
+            if (err) return console.log(`Error: ${err}`);
+            console.log("File saved successfully");
+        });
+    
+        output = await execute(langObject.command);
+    }
+
+    console.log(output);
+
+    let responseObject = {
+        code: -1,
+        msg: "Internal error",
+        expected: answer,
+        result: "ERROR"
+    }
+
+    
+    if (answer === undefined) {
+        responseObject = {
+            code: 60,
+            msg: "Error: please specify an answer",
+            expected: "NA",
+            result: "ERROR"
+        }
+    }
+    else if (output.code === 10) {
+        if (output.msg === answer) {
+            responseObject = {
+                code: output.code,
+                msg: output.msg,
+                expected: answer,
+                result: "CORRECT"
+            }
+        }
+        else {
+            responseObject = {
+                code: output.code,
+                msg: output.msg,
+                expected: answer,
+                result: "INCORRECT"
+            }
+        }
+    }
+    else {
+        responseObject = {
+            code: output.code,
+            msg: output.msg,
+            expected: answer,
+            result: "ERROR"
+        }
+    }
+
+    res.send(responseObject);
+});
+
+
 app.listen(PORT, () => {
     console.log(`Started on port: ${PORT}.\nGo to /docs for more information.`);
 });
