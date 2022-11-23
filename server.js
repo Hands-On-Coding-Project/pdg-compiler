@@ -7,10 +7,13 @@ import { createLanguageObject } from './languageObject.js';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJSDocs from 'swagger-jsdoc';
 import {swaggerJsDocOptions, swaggerUIOptions} from './config/swaggerOptions.js';
+import * as dotenv from 'dotenv';
+
+dotenv.config()
 
 const app = express();
 
-const PORT = 12345;
+const PORT = process.env.PORT;
 app.use(bodyParser.json());
 app.use(cors());
 app.options('*', cors());
@@ -39,7 +42,7 @@ app.options('*', cors());
  */
 app.post('/compileInput', async (req, res) => {
     let lang = req.body.language;
-    let code = req.body.code;
+    let code = req.body.code || "";
     let input = req.body.input || "";
 
     // Request error
