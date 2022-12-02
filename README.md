@@ -114,7 +114,7 @@ Just do a POST request to the base URL with a JSON file with the following struc
     "input": "Hello World!"
 }
 ```
-and you will resieve a similar JSON file:
+and you will receive a similar JSON file:
 ```json
 {
     "code": 10
